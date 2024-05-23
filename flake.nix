@@ -30,6 +30,7 @@
 	  agenix.nixosModules.default
           nixos-hardware.nixosModules.framework-13-7040-amd
           ./configuration.nix
+	  ./callisto.nix
         ];
     };
   };
