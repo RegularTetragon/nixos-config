@@ -1,4 +1,5 @@
 { config, pkgs, ...}: {
+  networking.hostName = "callisto";
   powerManagement.enable = true;
   
   # fingerprints

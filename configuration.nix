@@ -17,6 +17,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = ["v4l2loopback"];
   boot.extraModulePackages = [ pkgs.linuxPackages_latest.v4l2loopback ];
+  boot.initrd.systemd.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -44,10 +45,11 @@
     LC_TIME = "en_US.UTF-8";
   };
   services.flatpak.enable = true;
+  console.useXkbConfig = true;
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "";
+    variant = "colemak_dh";
   };
 
   # Enable CUPS to print documents.
@@ -120,6 +122,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    tpm2-tss
     htop
     v4l-utils
     git

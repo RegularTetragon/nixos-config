@@ -1,5 +1,6 @@
 {config, ...}: {
   services.samba-wsdd.enable = true;
+  networking.hostName = "ganymede";
   services.samba = {
     enable = true;
     openFirewall = true;
