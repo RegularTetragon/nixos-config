@@ -95,19 +95,16 @@
     nordvpn.file = secrets/nordvpn.age;
   };
 
-  services.openvpn = {
-    servers = {
-      p2p = {
-        config = ''
-	  config /root/nixos/openvpn/nord/tcp/us10025.nordvpn.com.tcp.ovpn
-	  auth-user-pass ${config.age.secrets.nordvpn.path}
-	'';
-      };
-    };
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+# services.openvpn = {
+#   servers = {
+#     p2p = {
+#       config = ''
+#         config /root/nixos/openvpn/nord/tcp/us10025.nordvpn.com.tcp.ovpn
+#         auth-user-pass ${config.age.secrets.nordvpn.path}
+#       '';
+#     };
+#   };
+# };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vael = {
@@ -152,21 +149,6 @@
   ];
   
 
- # environment.etc = {
- #   "pipewire/pipewire.conf.d/mod.conf".text = ''
- #     context.properties = {
- #       default.clock.rate = 44100
- #     }
- #   '';
- # };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -175,7 +157,7 @@
     configure = {
       customRC = ''
         set number
-	      set autoindent expandtab tabstop=2 shiftwidth=2
+	set autoindent expandtab tabstop=2 shiftwidth=2
       '';
     };
   };

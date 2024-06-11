@@ -16,4 +16,5 @@
   hardware.opengl.extraPackages = with pkgs; [
     amdvlk
   ];
+  hardware.opentabletdriver.enable = true;
 }
