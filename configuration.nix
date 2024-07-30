@@ -63,7 +63,6 @@
   };
   services.blueman.enable = true;
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -188,9 +187,8 @@
     # settings.PasswordAuthentication = false;
     # settings.KbdInteractiveAuthentication = false;
   };
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages = with pkgs; [
     amdvlk
   ];
 
