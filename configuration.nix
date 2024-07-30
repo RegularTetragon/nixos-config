@@ -99,18 +99,18 @@
 #   servers = {
 #     p2p = {
 #       config = ''
-#         config /root/nixos/openvpn/nord/tcp/us10025.nordvpn.com.tcp.ovpn
+#         config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
 #         auth-user-pass ${config.age.secrets.nordvpn.path}
 #       '';
 #     };
 #   };
-# };
+#  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vael = {
     isNormalUser = true;
     description = "Vael Mattingly";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "terraria" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "terraria" "dialout" ];
   };
 
   # Allow unfree packages
