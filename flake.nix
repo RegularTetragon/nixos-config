@@ -28,7 +28,7 @@
           ({config, pkgs, ...}: {nixpkgs.overlays = [overlay-nixpkgs-unstable];})
           nur.nixosModules.nur
 	  agenix.nixosModules.default
-          nixos-hardware.nixosModules.framework-13-7040-amd
+          # nixos-hardware.nixosModules.framework-13-7040-amd
           ./configuration.nix
 	  ./callisto.nix
         ];

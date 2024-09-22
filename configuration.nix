@@ -94,16 +94,16 @@
     nordvpn.file = secrets/nordvpn.age;
   };
 
-# services.openvpn = {
-#   servers = {
-#     p2p = {
-#       config = ''
-#         config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
-#         auth-user-pass ${config.age.secrets.nordvpn.path}
-#       '';
-#     };
-#   };
-#  };
+  services.openvpn = {
+   servers = {
+     p2p = {
+       config = ''
+         config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
+         auth-user-pass ${config.age.secrets.nordvpn.path}
+       '';
+     };
+   };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vael = {
