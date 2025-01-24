@@ -28,7 +28,7 @@
   # Enable networking
   networking.networkmanager.enable = true;
   # Set your time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "America/Denver";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -66,6 +66,7 @@
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.steam-hardware.enable = true;
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.sudo.wheelNeedsPassword = true;
