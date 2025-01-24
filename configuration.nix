@@ -14,9 +14,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelModules = ["v4l2loopback"];
-  boot.extraModulePackages = [ pkgs.linuxPackages_latest.v4l2loopback ];
+  boot.extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
   boot.initrd.systemd.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -63,7 +63,6 @@
   };
   services.blueman.enable = true;
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   hardware.steam-hardware.enable = true;
@@ -132,21 +131,6 @@
     waypipe
     agenix.packages.x86_64-linux.default
   ];
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    ubuntu_font_family
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    fira-code-nerdfont
-    nerdfonts
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    font-awesome
-  ];
   
 
   programs.neovim = {
@@ -157,7 +141,10 @@
     configure = {
       customRC = ''
         set number
-	set autoindent expandtab tabstop=2 shiftwidth=2
+        set autoindent
+        set expandtab
+        set tabstop=2
+	      set shiftwidth=2
       '';
     };
   };

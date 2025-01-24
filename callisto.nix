@@ -10,10 +10,11 @@
   services.fwupd.enable = true;
   services.logind = {
     # extraConfig = "HandlePowerKey=suspend";
-    lidSwitch = "hybrid-sleep";
+    lidSwitch = "hibernate";
+    lidSwitchExternalPower = "ignore";
   };
   services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     amdvlk
   ];
   hardware.opentabletdriver.enable = true;
