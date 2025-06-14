@@ -19,7 +19,11 @@
   boot.extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
   boot.initrd.systemd.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -54,21 +58,38 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.epson-escpr ];
+  services.printing.drivers = [ pkgs.epson-escpr pkgs.epson-escpr2 ];
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
   services.syncthing = {
     enable = true;
     user = "vael";
     dataDir = "/home/vael/Sync";
     configDir = "/home/vael/.config/syncthing";
   };
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  programs.nix-ld.enable = true;
   services.blueman.enable = true;
   # Enable sound with pipewire.
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   hardware.steam-hardware.enable = true;
+  hardware.opentabletdriver.enable = true;
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [pkgs.epkowa];
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.sudo.wheelNeedsPassword = true;
+  security.tpm2.enable = true;
+  security.tpm2.pkcs11.enable = true;
+  security.tpm2.tctiEnvironment.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -95,21 +116,21 @@
   };
 
   services.openvpn = {
-   servers = {
-     p2p = {
-       config = ''
-         config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
-         auth-user-pass ${config.age.secrets.nordvpn.path}
-       '';
-     };
+    servers = {
+      p2p = {
+        config = ''
+          config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
+          auth-user-pass ${config.age.secrets.nordvpn.path}
+        '';
+      };
+    };
    };
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vael = {
     isNormalUser = true;
     description = "Vael Mattingly";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "terraria" "dialout" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "terraria" "dialout" "tss" "scanner" "lp" "dialout" ];
   };
 
   # Allow unfree packages
@@ -161,10 +182,16 @@
   };
   programs.hyprland = {
     enable = true;
+    withUWSM = true;
+  };
+  programs.uwsm = {
+    enable = true;
+    waylandCompositors = { };
   };
   programs.gamescope.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.waydroid.enable = true;
   programs.dconf.enable = true;
   # List services that you want to enable:
@@ -182,6 +209,7 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
+    8000
   ];
   networking.firewall.allowedUDPPorts = [
   ];
