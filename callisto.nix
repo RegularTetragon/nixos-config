@@ -3,6 +3,12 @@
   networking.hostName = "callisto";
   powerManagement.enable = true;
 
+  console.useXkbConfig = true;
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "colemak_dh";
+  };
   # fingerprints
   services.fprintd = {
     enable = true;

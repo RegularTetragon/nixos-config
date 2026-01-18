@@ -64,12 +64,6 @@
       flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     '';
   };
-  console.useXkbConfig = true;
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "colemak_dh";
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
