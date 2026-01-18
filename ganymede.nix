@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   services.samba-wsdd.enable = true;
   networking.hostName = "ganymede";
   services.samba = {
@@ -51,7 +52,7 @@
     6969 # bean chugger
   ];
   networking.firewall.allowedUDPPorts = [
-    3702 #wsdd
+    3702 # wsdd
     6969 # bean chugger
   ];
-};
+}

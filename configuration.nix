@@ -2,27 +2,36 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, home-manager, agenix, ... }:
+{
+  config,
+  pkgs,
+  home-manager,
+  agenix,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      home-manager.nixosModules.default
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    home-manager.nixosModules.default
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages;
-  boot.kernelModules = ["v4l2loopback"];
+  boot.kernelModules = [ "v4l2loopback" "wacom" ];
   boot.extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
   boot.initrd.systemd.enable = true;
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
 
   # Configure network proxy if necessary
@@ -49,6 +58,13 @@
     LC_TIME = "en_US.UTF-8";
   };
   services.flatpak.enable = true;
+    systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.flatpak ];
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    '';
+  };
   console.useXkbConfig = true;
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -58,7 +74,10 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.epson-escpr pkgs.epson-escpr2 ];
+  services.printing.drivers = [
+    pkgs.epson-escpr
+    pkgs.epson-escpr2
+  ];
   services.avahi = {
     enable = true;
     nssmdns4 = true;
@@ -81,9 +100,10 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   hardware.steam-hardware.enable = true;
-  hardware.opentabletdriver.enable = true;
+  hardware.xone.enable = true;
+  # hardware.opentabletdriver.enable = true;
   hardware.sane.enable = true;
-  hardware.sane.extraBackends = [pkgs.epkowa];
+  hardware.sane.extraBackends = [ pkgs.epkowa ];
   security.rtkit.enable = true;
   security.polkit.enable = true;
   security.sudo.wheelNeedsPassword = true;
@@ -97,13 +117,13 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
-    extraConfig.pipewire = {
-      "10-clock-rate" = {
-        "context.properties" = {
-          "default.clock.rate" = 44100;
-        };
-      };
-    };
+#   extraConfig.pipewire = {
+#    "10-clock-rate" = {
+#      "context.properties" = {
+#        "default.clock.rate" = 44100;
+#      };
+#    };
+#  };
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -119,18 +139,38 @@
     servers = {
       p2p = {
         config = ''
-          config /root/nixos/openvpn/nord/tcp/us10030.nordvpn.com.tcp.ovpn
+          config /root/nixos/openvpn/nord/tcp/us6660.nordvpn.com.tcp.ovpn
           auth-user-pass ${config.age.secrets.nordvpn.path}
         '';
       };
     };
-   };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vael = {
     isNormalUser = true;
     description = "Vael Mattingly";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "terraria" "dialout" "tss" "scanner" "lp" "dialout" ];
+    shell = pkgs.nushell;
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "terraria"
+      "dialout"
+      "tss"
+      "scanner"
+      "lp"
+      "dialout"
+      "input"
+    ];
+  };
+  users.users.test = {
+    isNormalUser = true;
+    description = "Test Account";
+    extraGroups = [
+
+    ];
   };
 
   # Allow unfree packages
@@ -152,7 +192,6 @@
     waypipe
     agenix.packages.x86_64-linux.default
   ];
-  
 
   programs.neovim = {
     enable = true;
@@ -165,7 +204,7 @@
         set autoindent
         set expandtab
         set tabstop=2
-	      set shiftwidth=2
+        set shiftwidth=2
       '';
     };
   };
@@ -199,13 +238,10 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    # settings.PasswordAuthentication = false;
-    # settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
   };
   hardware.graphics.enable32Bit = true;
-  hardware.graphics.extraPackages = with pkgs; [
-    amdvlk
-  ];
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [

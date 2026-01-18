@@ -4,32 +4,48 @@
   inputs.nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
   inputs.agenix.url = "github:ryantm/agenix";
-  inputs.home-manager.url = github:nix-community/home-manager;
+  inputs.home-manager.url = "github:nix-community/home-manager";
 
-  outputs = { self, agenix, nixpkgs, nixpkgs-unstable, nixpkgs-stable, nixos-hardware, ... }@attrs:
+  outputs =
+    {
+      self,
+      agenix,
+      nixpkgs,
+      nixpkgs-unstable,
+      nixpkgs-stable,
+      nixos-hardware,
+      ...
+    }@attrs:
     let
       system = "x86_64-linux";
       overlay-nixpkgs-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
           inherit system;
-	        config.allowUnfree = true;
-	      };
+          config.allowUnfree = true;
+        };
         stable = import nixpkgs-stable {
           inherit system;
-	        config.allowUnfree = true;
+          config.allowUnfree = true;
         };
       };
-    in {
+    in
+    {
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
       nixosConfigurations.callisto = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = attrs;
         modules = [
-          ({config, pkgs, ...}: {nixpkgs.overlays = [overlay-nixpkgs-unstable];})
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ overlay-nixpkgs-unstable ];
+            }
+          )
           agenix.nixosModules.default
           # nixos-hardware.nixosModules.framework-13-7040-amd
           ./configuration.nix
           ./callisto.nix
         ];
+      };
     };
-  };
 }
