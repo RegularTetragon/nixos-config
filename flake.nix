@@ -31,6 +31,23 @@
     in
     {
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
+      nixosConfigurations.ganymede = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = attrs;
+        modules = [
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ overlay-nixpkgs-unstable ];
+            }
+          )
+          agenix.nixosModules.default
+          # nixos-hardware.nixosModules.framework-13-7040-amd
+          ./configuration.nix
+          ./ganymede.nix
+          ./ganymede-hardware-configuration.nix
+        ];
+      };
       nixosConfigurations.callisto = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = attrs;
@@ -45,6 +62,7 @@
           # nixos-hardware.nixosModules.framework-13-7040-amd
           ./configuration.nix
           ./callisto.nix
+          ./callisto-hardware-configuration.nix
         ];
       };
     };
