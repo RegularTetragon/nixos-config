@@ -1,7 +1,7 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-  inputs.nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+  inputs.nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
   inputs.nixos-hardware.url = "github:NixOS/nixos-hardware";
   inputs.agenix.url = "github:ryantm/agenix";
   inputs.home-manager.url = "github:nix-community/home-manager";
