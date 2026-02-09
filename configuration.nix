@@ -20,7 +20,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages;
-  boot.kernelModules = [ "v4l2loopback" "wacom" ];
+  boot.kernelModules = [
+    "v4l2loopback"
+    "wacom"
+  ];
   boot.extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
   boot.initrd.systemd.enable = true;
 
@@ -57,6 +60,7 @@
     LC_TIME = "en_US.UTF-8";
   };
   services.gvfs.enable = true;
+  services.samba.enable = true;
   services.udisks2.enable = true;
   services.flatpak.enable = true;
   systemd.services.flatpak-repo = {
@@ -112,47 +116,47 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
-   extraConfig.pipewire = {
-"91-null-sinks" = {
-    "context.objects" = [
-      {
-        # A default dummy driver. This handles nodes marked with the "node.always-driver"
-        # properyty when no other driver is currently active. JACK clients need this.
-        factory = "spa-node-factory";
-        args = {
-          "factory.name" = "support.node.driver";
-          "node.name" = "Dummy-Driver";
-          "priority.driver" = 8000;
-        };
-      }
-      {
-        factory = "adapter";
-        args = {
-          "factory.name" = "support.null-audio-sink";
-          "node.name" = "Microphone-Proxy";
-          "node.description" = "Microphone";
-          "media.class" = "Audio/Source/Virtual";
-          "audio.position" = "MONO";
-        };
-      }
-      {
-        factory = "adapter";
-        args = {
-          "factory.name" = "support.null-audio-sink";
-          "node.name" = "Main-Output-Proxy";
-          "node.description" = "Main Output";
-          "media.class" = "Audio/Sink";
-          "audio.position" = "FL,FR";
-        };
-      }
-    ];
-  };
-#   "10-clock-rate" = {
-#     "context.properties" = {
-#       "default.clock.rate" = 44100;
-#     };
-#   };
-  };
+    extraConfig.pipewire = {
+      "91-null-sinks" = {
+        "context.objects" = [
+          {
+            # A default dummy driver. This handles nodes marked with the "node.always-driver"
+            # properyty when no other driver is currently active. JACK clients need this.
+            factory = "spa-node-factory";
+            args = {
+              "factory.name" = "support.node.driver";
+              "node.name" = "Dummy-Driver";
+              "priority.driver" = 8000;
+            };
+          }
+          {
+            factory = "adapter";
+            args = {
+              "factory.name" = "support.null-audio-sink";
+              "node.name" = "Microphone-Proxy";
+              "node.description" = "Microphone";
+              "media.class" = "Audio/Source/Virtual";
+              "audio.position" = "MONO";
+            };
+          }
+          {
+            factory = "adapter";
+            args = {
+              "factory.name" = "support.null-audio-sink";
+              "node.name" = "Main-Output-Proxy";
+              "node.description" = "Main Output";
+              "media.class" = "Audio/Sink";
+              "audio.position" = "FL,FR";
+            };
+          }
+        ];
+      };
+      #   "10-clock-rate" = {
+      #     "context.properties" = {
+      #       "default.clock.rate" = 44100;
+      #     };
+      #   };
+    };
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -231,6 +235,7 @@
     configure = {
       customRC = ''
         set number
+        set nowrap
         set autoindent
         set expandtab
         set tabstop=2
