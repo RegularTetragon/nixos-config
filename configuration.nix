@@ -191,7 +191,6 @@
       "docker"
       "libvirtd"
       "terraria"
-      "dialout"
       "tss"
       "scanner"
       "lp"
@@ -214,6 +213,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     tpm2-tss
+    cachix
     htop
     v4l-utils
     git
