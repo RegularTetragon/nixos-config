@@ -144,8 +144,8 @@
             args = {
               "factory.name" = "support.null-audio-sink";
               "node.name" = "Main-Output-Proxy";
-              "node.description" = "Main Output";
-              "media.class" = "Audio/Sink";
+              "node.description" = "Mixer";
+              "media.class" = "Audio/Duplex";
               "audio.position" = "FL,FR";
             };
           }
@@ -181,29 +181,32 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.vael = {
-    isNormalUser = true;
-    description = "Vael Mattingly";
-    shell = pkgs.nushell;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "docker"
-      "libvirtd"
-      "terraria"
-      "tss"
-      "scanner"
-      "lp"
-      "dialout"
-      "input"
-    ];
-  };
-  users.users.test = {
-    isNormalUser = true;
-    description = "Test Account";
-    extraGroups = [
-
-    ];
+  users.users = {
+    vael = {
+	    isNormalUser = true;
+	    description = "Vael Mattingly";
+	    shell = pkgs.nushell;
+	    extraGroups = [
+	      "networkmanager"
+	      "wheel"
+	      "docker"
+	      "libvirtd"
+	      "terraria"
+	      "dialout"
+	      "tss"
+	      "scanner"
+	      "lp"
+	      "dialout"
+	      "input"
+	    ];
+    };
+    hebber = {
+	    isNormalUser = true;
+	    description = "Hebber Debber";
+	    shell = pkgs.nushell;
+	    extraGroups = [
+	    ];
+    };
   };
 
   # Allow unfree packages

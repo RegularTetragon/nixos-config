@@ -39,6 +39,11 @@
   fileSystems."/mnt/nvme1n1p1" = {
     device = "/dev/disk/by-uuid/f8d8eea6-5a4b-446f-9215-d67bdd12e70a";
     fsType = "ext4";
+    options = [
+      "users"
+      "nofail"
+      "exec"
+    ];
   };
 
   swapDevices = [

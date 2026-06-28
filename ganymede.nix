@@ -9,9 +9,9 @@
       global = {
         security = "user";
         workgroup = "HOMEGROUP";
-        "server string" = "smbnix";
-        "netbios name" = "smbnix";
-        "hosts allow" = "192.168.0. 127.0.0.1 localhost";
+        "server string" = "ganymede";
+        "netbios name" = "ganymede";
+        "hosts allow" = "192.168.50. 127.0.0.1 localhost";
         "hosts deny" = "0.0.0.0/0";
         "guest account" = "nobody";
         "map to guest" = "bad user";
@@ -34,7 +34,7 @@
         "create mask" = "0644";
         "directory mask" = "0755";
         "force user" = "vael";
-        "force group" = "vael";
+        "force group" = "users";
       };
     };
   };
