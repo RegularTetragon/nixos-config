@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 {
   services.samba-wsdd.enable = true;
+  services.ddclient = {
+    enable = true;
+    configFile = config.age.secrets.dyndns.path;
+  };
   networking.hostName = "ganymede";
   services.samba = {
     enable = true;
@@ -41,12 +45,8 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
-    5357 # wsdd
-    6969 # bean chugger
   ];
   networking.firewall.allowedUDPPorts = [
-    3702 # wsdd
-    6969 # bean chugger
   ];
   networking.firewall.extraCommands = "iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns";
 }

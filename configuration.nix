@@ -93,6 +93,10 @@
     enable = true;
     enableSSHSupport = true;
   };
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
   programs.nix-ld.enable = true;
   services.blueman.enable = true;
   # Enable sound with pipewire.
@@ -166,6 +170,7 @@
   # agenix secrets
   age.secrets = {
     nordvpn.file = secrets/nordvpn.age;
+    dyndns.file = secrets/dyndns.age;
   };
 
   services.openvpn = {
@@ -276,8 +281,12 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
+    openFirewall = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
+    settings.PermitRootLogin = "no";
+    settings.AllowUsers = ["vael"];
+    settings.MaxAuthTries = 3;
   };
   hardware.graphics.enable32Bit = true;
 

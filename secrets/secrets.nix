@@ -18,4 +18,5 @@ let
 in
 {
   "nordvpn.age".publicKeys = users ++ systems;
+  "dyndns.age".publicKeys = [root-ganymede ganymede];
 }
