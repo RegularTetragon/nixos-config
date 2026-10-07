@@ -9,8 +9,12 @@
   agenix,
   ...
 }:
-
-{
+let custom-catppuccin-sddm = pkgs.catppuccin-sddm.override {
+      flavor = "macchiato";
+      accent = "pink";
+      background = ./attreehouse.jpg;
+    };
+in {
   imports = [
     home-manager.nixosModules.default
     # Include the results of the hardware scan.
@@ -32,8 +36,6 @@
       "nix-command"
       "flakes"
     ];
-    substituters = [ "https://hyprland.cachix.org" ];
-    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
 
   # Configure network proxy if necessary
@@ -59,6 +61,13 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
+  services.displayManager.sddm = {
+    enable = false;
+    # wayland.enable = true;
+    theme = "catppuccin-macchiato-pink";
+    wayland.enable = true;
+  };
+  services.desktopManager.plasma6.enable = true;
   services.gvfs.enable = true;
   services.samba.enable = true;
   services.udisks2.enable = true;
@@ -230,9 +239,11 @@
     zip
     unzip
     libsForQt5.qtstyleplugin-kvantum
+    custom-catppuccin-sddm
     nix-index
     waypipe
     agenix.packages.x86_64-linux.default
+    kdePackages.sddm-kcm
   ];
 
   programs.neovim = {
@@ -255,16 +266,13 @@
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
   };
   xdg.portal = {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
     ];
-  };
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
   };
   programs.uwsm = {
     enable = true;
